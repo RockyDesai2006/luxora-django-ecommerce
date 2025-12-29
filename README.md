@@ -43,7 +43,7 @@ Ecommerce/
 
 ---
 
-🔗 Live Demo: https://luxora.onrender.com
+🔗 Live Demo: https://luxora-2aem.onrender.com
 
 ## ⚙️ Setup Instructions
 
