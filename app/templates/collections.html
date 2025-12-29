@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Luxora | Collections</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #ffffff;
+            color: #222;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 80px;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background: #000;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-icons span {
+            margin-left: 15px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* PAGE HEADER */
+        .collections-header {
+            padding: 90px 80px;
+            background: #f9f9f9;
+        }
+
+        .collections-header h1 {
+            font-size: 44px;
+            margin-bottom: 12px;
+        }
+
+        .collections-header p {
+            max-width: 600px;
+            color: #666;
+        }
+
+        /* COLLECTION GRID */
+        .collections {
+            padding: 80px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        .collection-card {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            height: 420px;
+            cursor: pointer;
+        }
+
+        .collection-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .collection-card:hover img {
+            transform: scale(1.08);
+        }
+
+        .collection-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0));
+            display: flex;
+            align-items: flex-end;
+            padding: 30px;
+            color: #fff;
+        }
+
+        .collection-overlay h2 {
+            font-size: 28px;
+        }
+
+        .collection-overlay p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-top: 6px;
+        }
+
+        /* FEATURED COLLECTION */
+        .featured {
+            padding: 100px 80px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .featured img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            border-radius: 20px;
+        }
+
+        .featured h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .featured p {
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            background: #000;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            display: inline-block;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 30px 80px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+        }
+
+        footer a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #555;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1000px) {
+            .collections {
+                grid-template-columns: 1fr;
+            }
+
+            .featured {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .collections-header,
+            .collections,
+            .featured {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">Luxora</div>
+
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'shop' %}">Shop</a></li>
+        <li><a href="{% url 'collections' %}">Collections</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+    </ul>
+
+    <div class="nav-icons">
+        <a href="{% url 'cart' %}" style="text-decoration:none; color:#000;">
+            🛒 {{ request.session.cart|length|default:0 }}
+        </a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" style="margin-left:15px; text-decoration:none; color:#000;">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" style="margin-left:15px; text-decoration:none; color:#000;">Login</a>
+        {% endif %}
+    </div>
+</nav>
+
+<!-- HEADER -->
+<section class="collections-header">
+    <h1>Our Collections</h1>
+    <p>Thoughtfully curated collections designed to define modern elegance and everyday luxury.</p>
+</section>
+
+<!-- COLLECTIONS GRID -->
+<section class="collections">
+    <div class="collection-card">
+        <img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=1200&q=80">
+        <div class="collection-overlay">
+            <div>
+                <h2>Autumn Essentials</h2>
+                <p>Layered looks for the modern season</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="collection-card">
+        <img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=1200&q=80">
+        <div class="collection-overlay">
+            <div>
+                <h2>Leather Luxe</h2>
+                <p>Premium craftsmanship & timeless style</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="collection-card">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=80">
+        <div class="collection-overlay">
+            <div>
+                <h2>Urban Footwear</h2>
+                <p>Designed for comfort & motion</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="collection-card">
+        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80">
+        <div class="collection-overlay">
+            <div>
+                <h2>Signature Watches</h2>
+                <p>Minimal design, maximum impact</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURED COLLECTION -->
+<section class="featured">
+    <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1400&q=80">
+    <div>
+        <h2>The Winter Edit</h2>
+        <p>
+            Explore our most refined seasonal collection, crafted with premium fabrics,
+            timeless silhouettes, and modern details that elevate your everyday wardrobe.
+        </p>
+        <a href="../shop" class="btn">Explore Collection</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2025 Luxora. All Rights Reserved.</p>
+    <div>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Support</a>
+    </div>
+</footer>
+
+</body>
+</html>

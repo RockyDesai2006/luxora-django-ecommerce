@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Luxora | Cart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #ffffff;
+            color: #222;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 80px;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            background: #fff;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        /* CART CONTAINER */
+        .cart-container {
+            padding: 80px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .cart-container h1 {
+            font-size: 36px;
+            margin-bottom: 40px;
+        }
+
+        /* CART TABLE */
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+
+        .cart-table th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .cart-table td {
+            padding: 20px 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+
+        .cart-product {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cart-product img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .remove-btn {
+            color: #000;
+            font-size: 14px;
+            text-decoration: underline;
+        }
+
+        /* SUMMARY */
+        .cart-summary {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .summary-box {
+            width: 360px;
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 20px;
+        }
+
+        .summary-box h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .summary-total {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            margin-top: 30px;
+            padding: 14px;
+            border: none;
+            border-radius: 30px;
+            background: #000;
+            color: #fff;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        /* EMPTY CART */
+        .empty-cart {
+            text-align: center;
+            padding: 120px 20px;
+        }
+
+        .empty-cart h2 {
+            margin-bottom: 10px;
+        }
+
+        .empty-cart a {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 12px 28px;
+            background: #000;
+            color: #fff;
+            border-radius: 30px;
+            text-decoration: none;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 30px 80px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+            margin-top: 80px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .cart-container {
+                padding: 40px 20px;
+            }
+
+            .cart-summary {
+                justify-content: center;
+            }
+
+            .summary-box {
+                width: 100%;
+            }
+
+            .cart-table th {
+                display: none;
+            }
+
+            .cart-table td {
+                display: block;
+                padding: 15px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">Luxora</div>
+
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'shop' %}">Shop</a></li>
+        <li><a href="{% url 'collections' %}">Collections</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+    </ul>
+
+    <div class="nav-icons">
+        <a href="{% url 'cart' %}" style="text-decoration:none; color:#000;">
+            🛒 {{ request.session.cart|length|default:0 }}
+        </a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" style="margin-left:15px; text-decoration:none; color:#000;">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" style="margin-left:15px; text-decoration:none; color:#000;">Login</a>
+        {% endif %}
+    </div>
+</nav>
+
+<!-- CART CONTENT -->
+<div class="cart-container">
+
+{% if cart %}
+    <h1>Your Cart</h1>
+
+    <table class="cart-table">
+        <tr>
+            <th>Product</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th></th>
+        </tr>
+
+        {% for id, item in cart.items %}
+        <tr>
+            <td>
+                <div class="cart-product">
+                    <img src="{{ item.image }}" alt="{{ item.name }}">
+                    <div>
+                        <strong>{{ item.name }}</strong><br>
+                        <small>₹{{ item.price }}</small>
+                    </div>
+                </div>
+            </td>
+            <td>{{ item.qty }}</td>
+            <td>₹{{ item.price|floatformat:2 }}</td>
+            <td>
+                <a href="{% url 'remove_from_cart' id %}" class="remove-btn">Remove</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="cart-summary">
+        <div class="summary-box">
+            <h2>Order Summary</h2>
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>₹{{ total }}</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping</span>
+                <span>Free</span>
+            </div>
+            <div class="summary-row summary-total">
+                <span>Total</span>
+                <span>₹{{ total }}</span>
+            </div>
+            <a href="{% url 'checkout' %}">
+                <button class="checkout-btn">Proceed to Checkout</button>
+            </a>
+        </div>
+    </div>
+
+{% else %}
+    <div class="empty-cart">
+        <h2>Your cart is empty</h2>
+        <p>Looks like you haven’t added anything yet.</p>
+        <a href="{% url 'shop' %}">Continue Shopping</a>
+    </div>
+{% endif %}
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2025 Luxora. All Rights Reserved.</p>
+    <div>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Support</a>
+    </div>
+</footer>
+
+</body>
+</html>

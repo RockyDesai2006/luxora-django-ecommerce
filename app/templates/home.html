@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Luxora | Premium Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #ffffff;
+            color: #222;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 80px;
+            border-bottom: 1px solid #eee;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 400;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background: #000;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-icons span {
+            margin-left: 15px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        /* HERO */
+        .hero {
+            height: 90vh;
+            background: url("https://images.unsplash.com/photo-1521334884684-d80222895322?auto=format&fit=crop&w=1600&q=80") center/cover;
+            display: flex;
+            align-items: center;
+            padding-left: 80px;
+        }
+
+        .hero-content {
+            max-width: 450px;
+            background: rgba(255,255,255,0.85);
+            padding: 40px;
+            border-radius: 16px;
+        }
+
+        .hero h1 {
+            font-size: 46px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            margin-bottom: 25px;
+            color: #555;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            background: #000;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            opacity: 0.9;
+        }
+
+        /* CATEGORIES */
+        .categories {
+            padding: 80px;
+            text-align: center;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .category-card {
+            padding: 50px;
+            background: #f7f7f7;
+            border-radius: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .category-card:hover {
+            background: #000;
+            color: #fff;
+            transform: translateY(-5px);
+        }
+
+        /* PRODUCTS */
+        .products {
+            padding: 80px;
+            text-align: center;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .product-card {
+            background: #fafafa;
+            padding: 20px;
+            border-radius: 14px;
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .product-card img {
+            width: 100%;
+            border-radius: 12px;
+        }
+
+        .product-card h3 {
+            margin: 15px 0 5px;
+        }
+
+        .product-card button {
+            margin-top: 10px;
+            padding: 8px 20px;
+            border: none;
+            background: #000;
+            color: #fff;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* PROMO */
+        .promo {
+            padding: 80px;
+            background: #111;
+            color: #fff;
+            text-align: center;
+        }
+
+        /* TESTIMONIALS */
+        .testimonials {
+            padding: 80px;
+            text-align: center;
+        }
+
+        .testimonial-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .testimonial {
+            background: #f7f7f7;
+            padding: 30px;
+            border-radius: 14px;
+            max-width: 400px;
+        }
+
+        /* NEWSLETTER */
+        .newsletter {
+            padding: 80px;
+            text-align: center;
+            background: #f9f9f9;
+        }
+
+        .newsletter input {
+            padding: 12px;
+            width: 260px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        .newsletter button {
+            padding: 12px 25px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 30px 80px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+        }
+
+        footer a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #555;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .category-grid, .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .category-grid, .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 260px;              /* SAME HEIGHT FOR ALL */
+            object-fit: cover;          /* NO STRETCHING */
+            border-radius: 12px;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 260px;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-img img {
+            transform: scale(1.08);
+        }
+
+        .product-card {
+            cursor: pointer;
+        }
+
+        .product-card h3:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">Luxora</div>
+
+    <ul class="nav-links">
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'shop' %}">Shop</a></li>
+        <li><a href="{% url 'collections' %}">Collections</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+    </ul>
+
+    <div class="nav-icons">
+        <a href="{% url 'cart' %}" style="text-decoration:none; color:#000;">
+            🛒 {{ request.session.cart|length|default:0 }}
+        </a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" style="margin-left:15px; text-decoration:none; color:#000;">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" style="margin-left:15px; text-decoration:none; color:#000;">Login</a>
+        {% endif %}
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Redefine Your Style</h1>
+        <p>Premium fashion designed for elegance and everyday comfort.</p>
+        <a href="#" class="btn">Shop Now</a>
+    </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories">
+    <h2>Featured Categories</h2>
+    <div class="category-grid">
+        <div class="category-card">Men</div>
+        <div class="category-card">Women</div>
+        <div class="category-card">Accessories</div>
+        <div class="category-card">Footwear</div>
+    </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products">
+    <h2>Best Sellers</h2>
+
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="product-card">
+            <a href="{% url 'product_detail' product.id %}" style="text-decoration:none; color:inherit;">
+                <div class="product-img">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                </div>
+                <h3>{{ product.name }}</h3>
+            </a>
+            <p>₹{{ product.price }}</p>
+            <a href="{% url 'add_to_cart' product.id %}">
+                <button>Add to Cart</button>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+
+<!-- PROMO -->
+<section class="promo">
+    <h2>Season Sale</h2>
+    <p>Up to 50% off on selected items</p>
+    <a href="#" class="btn">Explore Deals</a>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+    <h2>What Customers Say</h2>
+    <div class="testimonial-grid">
+        <div class="testimonial">
+            <p>"Premium quality and fast delivery. Highly recommended!"</p>
+            <h4>- Rahul</h4>
+        </div>
+        <div class="testimonial">
+            <p>"Elegant design and smooth shopping experience."</p>
+            <h4>- Ananya</h4>
+        </div>
+    </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+    <h2>Join Our Newsletter</h2>
+    <p>Exclusive offers & new arrivals straight to your inbox.</p>
+    <input type="email" id="email" placeholder="Enter your email">
+    <button onclick="subscribe()">Subscribe</button>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2025 Luxora. All Rights Reserved.</p>
+    <div>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Support</a>
+    </div>
+</footer>
+
+<script>
+    function subscribe() {
+        const email = document.getElementById("email").value;
+        if(email === "") {
+            alert("Please enter an email address");
+        } else {
+            alert("Thank you for subscribing!");
+            document.getElementById("email").value = "";
+        }
+    }
+</script>
+
+</body>
+</html>

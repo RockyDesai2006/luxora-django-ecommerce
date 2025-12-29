@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Luxora | Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f9f9f9;
+}
+
+/* CONTAINER */
+.auth-container {
+    width: 900px;
+    height: 520px;
+    background: #fff;
+    border-radius: 25px;
+    overflow: hidden;
+    display: flex;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.12);
+}
+
+/* LEFT IMAGE */
+.auth-image {
+    width: 50%;
+    background: url('https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
+}
+
+/* FORMS */
+.auth-forms {
+    width: 50%;
+    position: relative;
+    overflow: hidden;
+}
+
+.form {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 70px 50px;
+    transition: 0.6s ease;
+}
+
+.form h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.form p {
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.form input {
+    width: 100%;
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    outline: none;
+}
+
+.form button {
+    width: 100%;
+    padding: 14px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.form span {
+    display: block;
+    margin-top: 25px;
+    font-size: 14px;
+}
+
+.form span a {
+    color: #000;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* LOGIN & REGISTER POSITIONS */
+.login-form {
+    left: 0;
+}
+
+.register-form {
+    left: 100%;
+}
+
+/* ANIMATION STATES */
+.auth-container.active .login-form {
+    left: -100%;
+}
+
+.auth-container.active .register-form {
+    left: 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .auth-container {
+        width: 95%;
+        height: auto;
+        flex-direction: column;
+    }
+
+    .auth-image {
+        height: 200px;
+        width: 100%;
+    }
+
+    .auth-forms {
+        width: 100%;
+        height: 420px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="auth-container" id="authBox">
+
+    <div class="auth-image"></div>
+
+    <div class="auth-forms">
+        <!-- LOGIN -->
+        <form class="form login-form" method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <h2>Welcome Back</h2>
+            <p>Login to continue shopping</p>
+
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+
+            <button type="submit">Login</button>
+
+            <span>
+                Don’t have an account?
+                <a onclick="toggleAuth()">Register</a>
+            </span>
+        </form>
+
+        <!-- REGISTER -->
+        <form class="form register-form" method="POST" action="{% url 'register' %}">
+            {% csrf_token %}
+            <h2>Create Account</h2>
+            <p>Join Luxora today</p>
+
+            <input type="text" name="name" placeholder="Full Name" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+
+            <button type="submit">Create Account</button>
+
+            <span>
+                Already have an account?
+                <a onclick="toggleAuth()">Login</a>
+            </span>
+        </form>
+    </div>
+
+</div>
+
+<script>
+function toggleAuth() {
+    document.getElementById("authBox").classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
