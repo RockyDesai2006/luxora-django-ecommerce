@@ -43,6 +43,8 @@ Ecommerce/
 
 ---
 
+🔗 Live Demo: https://luxora.onrender.com
+
 ## ⚙️ Setup Instructions
 
 ```bash
@@ -68,4 +70,5 @@ Order tracking
 
 Email notifications
 
-Inventory management
+Inventory management```bash
+
